@@ -12,7 +12,7 @@ import { ConsumableManager, Game } from '../engine/game.js';
 import { MetaStore } from '../engine/meta.js';
 import { SaveSystem } from '../engine/save.js';
 import { SpecialSystem } from '../engine/special.js';
-import { setDisplay, setText } from './ui-core.js';
+import { difficultyIconId, setDisplay, setText } from './ui-core.js';
 import { UI } from './ui.js';
 import type {Consumable, Equipment} from '../core/types.js';
 
@@ -121,7 +121,7 @@ export const UIEndOfRun = {
     const summary = Game.getSummary();
     const container = document.getElementById('gameover-summary');
     if (!summary || !container) return;
-    const diffIcon = summary.difficulty === 'easy' ? 'icon-easy' : summary.difficulty === 'normal' ? 'icon-normal' : 'icon-hard';
+    const diffIcon = difficultyIconId(summary.difficulty);
     container.innerHTML = `
       <div class="summary-row"><span class="label">Run #</span><span class="value">${summary.runNumber}</span></div>
       <div class="summary-row"><span class="label">Difficulty</span><span class="value"><svg class="difficulty-icon summary-diff-icon"><use href="#${diffIcon}"/></svg> ${CONFIG.game.difficulty[summary.difficulty].label}</span></div>
@@ -156,7 +156,7 @@ export const UIEndOfRun = {
 
     const summary = Game.getSummary();
     if (!summary) return;
-    const vDiffIcon = summary.difficulty === 'easy' ? 'icon-easy' : summary.difficulty === 'normal' ? 'icon-normal' : 'icon-hard';
+    const vDiffIcon = difficultyIconId(summary.difficulty);
     summaryContainer.innerHTML = `
       <div class="summary-row"><span class="label">Run #</span><span class="value">${summary.runNumber}</span></div>
       <div class="summary-row"><span class="label">Difficulty</span><span class="value"><svg class="difficulty-icon summary-diff-icon"><use href="#${vDiffIcon}"/></svg> ${CONFIG.game.difficulty[summary.difficulty].label}</span></div>

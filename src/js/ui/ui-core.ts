@@ -48,6 +48,12 @@ export const setDisplay = (id: string, display: string): void => {
   const el = document.getElementById(id);
   if (el) el.style.display = display;
 };
+
+// Map a difficulty key to its shared SVG icon ID (used by the selector,
+// run summaries, and leaderboard).
+export function difficultyIconId(d: Difficulty): string {
+  return `icon-${d}`;
+}
 export const setText = (id: string, text: string): void => {
   const el = document.getElementById(id);
   if (el) el.textContent = text;
@@ -73,8 +79,7 @@ export const UICore = {
       lozenge.setAttribute('role', 'radio');
       lozenge.setAttribute('aria-checked', key === selected ? 'true' : 'false');
       lozenge.disabled = !!cfg.locked;
-      const iconId = key === 'easy' ? 'icon-easy' : key === 'normal' ? 'icon-normal' : 'icon-hard';
-      lozenge.innerHTML = `<svg class="difficulty-icon"><use href="#${iconId}"/></svg><span class="difficulty-label">${cfg.label}</span>` +
+      lozenge.innerHTML = `<svg class="difficulty-icon"><use href="#${difficultyIconId(key)}"/></svg><span class="difficulty-label">${cfg.label}</span>` +
         (cfg.locked ? '<span class="difficulty-lock"><svg class="lock-icon"><use href="#icon-padlock"/></svg></span>' : '<span class="cons-info difficulty-help" data-help="' + key + '" aria-label="About ' + cfg.label + '">?</span>');
 
       if (!cfg.locked) {
@@ -97,8 +102,7 @@ export const UICore = {
         const key = btn.dataset.help as Difficulty;
         const cfg = CONFIG.game.difficulty[key];
         if (cfg) {
-          const iconId = key === 'easy' ? 'icon-easy' : key === 'normal' ? 'icon-normal' : 'icon-hard';
-          UI.showTooltip({ icon: iconId, name: cfg.label, desc: cfg.desc });
+          UI.showTooltip({ icon: difficultyIconId(key), name: cfg.label, desc: cfg.desc });
         }
       });
     });

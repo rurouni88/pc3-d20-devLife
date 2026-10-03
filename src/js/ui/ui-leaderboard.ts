@@ -4,9 +4,11 @@
 // Loaded before ui.js; its methods are composed into UI there.
 
 // Truncate a seed to 6 characters for display.
+import { CONFIG } from '../core/config.js';
 import { dayToCareerYear } from '../core/utils.js';
 import { ARCHETYPES } from '../data/archetypes.js';
 import { MetaStore } from '../engine/meta.js';
+import { difficultyIconId } from './ui-core.js';
 import { UI } from './ui.js';
 import type {Difficulty, RunRecord} from '../core/types.js';
 
@@ -31,8 +33,8 @@ function renderLeaderboardRow(run: RunRecord, rank: number): string {
 
 // Render a single difficulty section.
 function renderDifficultySection(difficulty: Difficulty): string {
-  const iconId = difficulty === 'easy' ? 'icon-easy' : difficulty === 'normal' ? 'icon-normal' : 'icon-hard';
-  const label = difficulty === 'easy' ? 'Easy' : difficulty === 'normal' ? 'Normal' : 'Hard';
+  const iconId = difficultyIconId(difficulty);
+  const label = CONFIG.game.difficulty[difficulty].label;
   const topRuns = MetaStore.getTopRuns(difficulty, 10);
   let html = `<h3 class="leaderboard-diff-title"><svg class="difficulty-icon leaderboard-diff-icon"><use href="#${iconId}"/></svg> ${label}</h3>`;
 
