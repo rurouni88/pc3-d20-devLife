@@ -27,6 +27,7 @@ export const App = {
     UI.initPopupClose();
     UI.startAsciiLoop();
     this.initHelpTabs();
+    this.initGuardHandlers();
     UI.showScreen('title');
     UI.renderDifficultySelector();
     const versionText = `v${CONFIG.version} ${CONFIG.versionLabel}`;
@@ -205,6 +206,31 @@ export const App = {
       const btnContinue = document.getElementById('btn-continue');
       if (btnContinue) btnContinue.style.display = 'block';
     }
+  },
+
+  // Warn the player before they accidentally navigate away mid-run, and
+  // surface uncaught errors as a toast so a broken UI is diagnosable.
+  initGuardHandlers(): void {
+    // beforeunload: warn when a run is in progress (alive, not won).
+    window.addEventListener('beforeunload', (e) => {
+      const state = Game.state;
+      if (state && state.alive && !state.won) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+
+    // Global error handler: surface uncaught exceptions as a toast.
+    window.addEventListener('error', (e) => {
+      console.error('[d20().devLife] Uncaught error:', e.error || e.message);
+      UI.showToast(`⚠️ Something broke: ${e.message}`, 'error');
+    });
+
+    // Also catch unhandled promise rejections (async event loading, etc.).
+    window.addEventListener('unhandledrejection', (e) => {
+      console.error('[d20().devLife] Unhandled rejection:', e.reason);
+      UI.showToast('⚠️ An async operation failed.', 'error');
+    });
   },
 
   initHelpTabs(): void {
