@@ -42,7 +42,7 @@ export const App = {
       const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
       settings.theme = prefersLight ? 'light' : 'dark';
       applyTheme(settings.theme);
-      try { localStorage.setItem('devlife_settings', JSON.stringify(settings)); } catch {}
+      try { localStorage.setItem('devlife_settings', JSON.stringify(settings)); } catch (e) { console.warn('[d20().devLife] Failed to persist theme preference:', e); }
     } else {
       // Has saved preference — use it.
       applyTheme(settings.theme);

@@ -17,6 +17,18 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
 
+  build:
+    permissions: { contents: read }
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm run build
+      - run: npm run assemble
+
   test:
     permissions: { contents: read }
     runs-on: ubuntu-latest
