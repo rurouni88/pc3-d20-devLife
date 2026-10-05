@@ -1,6 +1,6 @@
 {
   "name": "devlife",
-  "version": "0.49",
+  "version": "0.50",
   "type": "module",
   "private": true,
   "description": "d20().devLife \u2014 a software engineering roguelike",
