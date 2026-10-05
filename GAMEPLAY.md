@@ -52,6 +52,9 @@ Seven stats inspired by Fallout, tailored for dev life:
 ### Sound & Design
 
 - **Synthesized Sound** — 8 Web Audio API bleeps (no audio files): success, failure, level up, boss, perk, victory, and more
+- **Background Music** — A looping "Corporate Elevator Music" track (16-beat C major, walking bass + melody + Jira-notification dings). Toggle in Settings
+- **Haptics** — Vibration feedback on key moments (stat check, level up, boss, game over, victory). Not supported on iOS Safari
+- **Victory/Defeat Jingles** — One-shot melodies: ascending arpeggio for retirement, sad trombone for burnout
 - **Mobile-First** — Works great on phones, tablets, and desktops
 - **Dark Terminal Theme** — Because that's what real developers use
 

@@ -359,8 +359,9 @@ Defeat all **4 phase bosses** (24 events, 20 with Fast Ship) to reach **Retireme
 - **HTML/CSS/TypeScript** (no framework) — a `tsc` build step compiles the TS source to ES modules in `dist/` (no bundler; a single `<script type="module">` entry, served over HTTP)
 - **TypeScript** under full `strict` checking; `tsconfig.json` type-checks (`noEmit`), `tsconfig.build.json` emits to `dist/`
 - **Node VM test suite** for core game logic (no framework, no browser) — runs against the built `dist/js/`
-- **Web Audio API** for synthesized sound effects (no audio files)
-- **LocalStorage** for save games and meta-progression
+- **Web Audio API** for synthesized sound effects, BGM, and jingles (no audio files)
+- **Navigator Vibration API** for haptic feedback on key moments (no-op on unsupported platforms)
+- **LocalStorage** for save games, meta-progression, and settings
 - **Single-page application** with screen-based navigation (no hash routing)
 
 ### File Structure
@@ -392,7 +393,9 @@ The project layout has changed since the initial commit, so this document no lon
 - Seeded runs (reproducible careers + re-roll)
 - Options menu: lifetime statistics + reset
 - Career summaries (win/lose, with seed + difficulty)
-- Synthesized sound effects
+- Synthesized sound effects (8 SFX)
+- Background music ("Corporate Elevator Music" loop) + victory/defeat jingles
+- Haptic feedback (vibration on key moments)
 - Perk system with interventions
 - Achievements (26 tracked in localStorage, evaluated at run end)
 
@@ -401,6 +404,7 @@ The project layout has changed since the initial commit, so this document no lon
 - Random event selection without repeats ✓
 - Animated dice roll (SVG d20 with cycling animation) ✓
 - Multi-run leaderboard (top 10 per difficulty, dedicated screen) ✓
+- BGM + haptics + victory/defeat jingles ✓
 - Export/share career runs *(planned)*
 
 ---

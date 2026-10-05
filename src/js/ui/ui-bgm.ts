@@ -154,24 +154,46 @@ interface JingleNote {
   oscType: OscillatorType;
 }
 
-// Victory: ascending C major arpeggio + bright "ta-da" hold.
-// Feels like a slightly over-the-top "career complete" fanfare.
+// Victory: "Natural 20" — a fast ascending chromatic run (like a die
+// tumbling up the table), then a sustained C major chord "release" with
+// a bright sparkle. You rolled the 20. You're free. The office is behind you.
 const VICTORY_NOTES: JingleNote[] = [
-  { freq: 523,  time: 0,    duration: 0.15, gain: 0.05,  oscType: 'sine' },     // C5
-  { freq: 659,  time: 0.12, duration: 0.15, gain: 0.05,  oscType: 'sine' },     // E5
-  { freq: 784,  time: 0.24, duration: 0.15, gain: 0.05,  oscType: 'sine' },     // G5
-  { freq: 1047, time: 0.36, duration: 0.5,  gain: 0.06,  oscType: 'sine' },     // C6 (hold)
-  { freq: 1319, time: 0.36, duration: 0.4,  gain: 0.02,  oscType: 'sine' },     // E6 (sparkle)
-  { freq: 1568, time: 0.36, duration: 0.3,  gain: 0.015, oscType: 'sine' },     // G6 (sparkle)
+  // Phase 1: die roll — 8-note chromatic ascending run, fast and tight.
+  { freq: 523,  time: 0.00, duration: 0.07, gain: 0.035, oscType: 'sine' },   // C5
+  { freq: 587,  time: 0.07, duration: 0.07, gain: 0.035, oscType: 'sine' },   // D5
+  { freq: 659,  time: 0.14, duration: 0.07, gain: 0.035, oscType: 'sine' },   // E5
+  { freq: 698,  time: 0.21, duration: 0.07, gain: 0.035, oscType: 'sine' },   // F5
+  { freq: 784,  time: 0.28, duration: 0.07, gain: 0.035, oscType: 'sine' },   // G5
+  { freq: 880,  time: 0.35, duration: 0.07, gain: 0.035, oscType: 'sine' },   // A5
+  { freq: 988,  time: 0.42, duration: 0.07, gain: 0.035, oscType: 'sine' },   // B5
+  { freq: 1047, time: 0.49, duration: 0.12, gain: 0.04,  oscType: 'sine' },   // C6 (lands)
+
+  // Phase 2: release — sustained C major chord (the freedom).
+  { freq: 523,  time: 0.62, duration: 0.60, gain: 0.035, oscType: 'sine' },   // C5
+  { freq: 659,  time: 0.62, duration: 0.60, gain: 0.035, oscType: 'sine' },   // E5
+  { freq: 784,  time: 0.62, duration: 0.60, gain: 0.035, oscType: 'sine' },   // G5
+
+  // Phase 3: sparkle — Jira ticket closing ding.
+  { freq: 1047, time: 0.62, duration: 0.30, gain: 0.02,  oscType: 'sine' },   // C6
+  { freq: 1319, time: 0.66, duration: 0.20, gain: 0.015, oscType: 'sine' },   // E6
 ];
 
-// Defeat: slow descending "womp womp". Minor key, sad trombone energy.
+// Defeat: "System Shutdown" — an error blip, then a descending power-down
+// sequence that slows down, ending in a low thud (the power button clicking
+// off). Your career has been terminated. No appeal.
 const DEFEAT_NOTES: JingleNote[] = [
-  { freq: 330, time: 0,   duration: 0.3, gain: 0.05, oscType: 'triangle' },   // E4
-  { freq: 294, time: 0.3, duration: 0.3, gain: 0.05, oscType: 'triangle' },   // D4
-  { freq: 262, time: 0.6, duration: 0.3, gain: 0.05, oscType: 'triangle' },   // C4
-  { freq: 233, time: 0.9, duration: 0.6, gain: 0.06, oscType: 'triangle' },   // Bb3 (sad hold)
-  { freq: 117, time: 0.9, duration: 0.5, gain: 0.03, oscType: 'sine' },       // Bb2 (bass womp)
+  // Phase 1: error blip — two quick square-wave beeps (system error).
+  { freq: 440, time: 0.00, duration: 0.08, gain: 0.03, oscType: 'square' },   // A4
+  { freq: 440, time: 0.12, duration: 0.08, gain: 0.03, oscType: 'square' },   // A4
+
+  // Phase 2: power down — descending, each note slower and lower.
+  { freq: 392, time: 0.32, duration: 0.14, gain: 0.04, oscType: 'triangle' }, // G4
+  { freq: 330, time: 0.52, duration: 0.18, gain: 0.04, oscType: 'triangle' }, // E4
+  { freq: 262, time: 0.76, duration: 0.28, gain: 0.04, oscType: 'triangle' }, // C4
+
+  // Phase 3: final thud — the power button clicking off.
+  { freq: 131, time: 1.10, duration: 0.50, gain: 0.05, oscType: 'sine' },     // C3
+  { freq: 98,  time: 1.10, duration: 0.40, gain: 0.03, oscType: 'sine' },     // G2
 ];
 
 function playJingle(notes: JingleNote[]): void {
