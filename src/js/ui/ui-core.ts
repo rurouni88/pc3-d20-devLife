@@ -173,6 +173,12 @@ export const UICore = {
   // When OFF (default), saving is disabled mid-run — no save scumming.
   saveScumOn: false,
 
+  // BGM toggle — persisted in settings (ui-settings.ts).
+  bgmOn: true,
+
+  // Haptics toggle — persisted in settings (ui-settings.ts).
+  hapticsOn: true,
+
   // Initialize audio (must be called after user interaction)
   initAudio(): void {
     if (UI.audioCtx) return;

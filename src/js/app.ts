@@ -28,6 +28,16 @@ export const App = {
     UI.startAsciiLoop();
     this.initHelpTabs();
     this.initGuardHandlers();
+
+    // BGM: browser autoplay policy requires a user interaction first.
+    // Listen for the first click/touch anywhere, then start the loop.
+    const startBgmOnce = (): void => {
+      UI.initBgm();
+      document.removeEventListener('click', startBgmOnce);
+      document.removeEventListener('touchstart', startBgmOnce);
+    };
+    document.addEventListener('click', startBgmOnce, { once: true });
+    document.addEventListener('touchstart', startBgmOnce, { once: true });
     UI.showScreen('title');
     UI.renderDifficultySelector();
     const versionText = `v${CONFIG.version} ${CONFIG.versionLabel}`;
