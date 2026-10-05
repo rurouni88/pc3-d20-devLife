@@ -293,8 +293,8 @@ export function getUnlocked(): Set<string> {
     if (data) {
       return new Set(JSON.parse(data) as string[]);
     }
-  } catch {
-    // Corrupted data — start fresh
+  } catch (e) {
+    console.warn('[d20().devLife] Achievement data corrupted, starting fresh:', e);
   }
   return new Set<string>();
 }
@@ -303,8 +303,8 @@ export function getUnlocked(): Set<string> {
 function saveUnlocked(unlocked: Set<string>): void {
   try {
     localStorage.setItem(ACHIEVEMENTS_STORAGE_KEY, JSON.stringify([...unlocked]));
-  } catch {
-    // Storage full or unavailable — silently fail
+  } catch (e) {
+    console.warn('[d20().devLife] Failed to save achievements:', e);
   }
 }
 
@@ -312,8 +312,8 @@ function saveUnlocked(unlocked: Set<string>): void {
 export function clearUnlocked(): void {
   try {
     localStorage.removeItem(ACHIEVEMENTS_STORAGE_KEY);
-  } catch {
-    // Storage unavailable — nothing to clear
+  } catch (e) {
+    console.warn('[d20().devLife] Failed to clear achievements:', e);
   }
 }
 

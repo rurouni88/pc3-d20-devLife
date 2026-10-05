@@ -33,8 +33,8 @@ export function loadSettings(): Settings {
       const parsed = JSON.parse(raw) as Partial<Settings>;
       return { ...DEFAULT_SETTINGS, ...parsed };
     }
-  } catch {
-    // Corrupted data — use defaults.
+  } catch (e) {
+    console.warn('[d20().devLife] Settings corrupted, using defaults:', e);
   }
   return { ...DEFAULT_SETTINGS };
 }
@@ -43,8 +43,8 @@ export function loadSettings(): Settings {
 function saveSettings(settings: Settings): void {
   try {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
-  } catch {
-    // Storage full or unavailable — silently fail.
+  } catch (e) {
+    console.warn('[d20().devLife] Failed to save settings:', e);
   }
 }
 
