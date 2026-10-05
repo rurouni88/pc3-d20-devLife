@@ -17,53 +17,85 @@ interface BgmNote {
   oscType: OscillatorType;
 }
 
-const BPM = 100;
-const BEAT = 60 / BPM; // 0.6s per beat
+const BPM = 110;
+const BEAT = 60 / BPM; // ~0.545s per beat
 
-// Melody: 4 bars, C major. Mellow, repetitive, slightly off.
-// Feels like the music playing in a corporate lobby.
+// "Standup Meeting" — A minor, staccato, straight rhythm.
+// Tense, mechanical, slightly annoying. Like someone talking over you
+// in a meeting you didn't sign up for. Never resolves — the meeting
+// continues.
+//
+// Deliberately different from pc3-PTSD's "Tech Support On Hold":
+//   - A minor (not C major) — tense, not corporate-happy
+//   - Staccato 8th notes (not sustained syncopation) — mechanical, not mellow
+//   - Root-fifth bass (not walking) — driving, not meandering
+//   - Low "thud" accents (not high dings) — like a gavel, not a notification
+//   - Hangs on E (V chord, not unresolved 4th) — tension, not limbo
+
 const MELODY: BgmNote[] = [
-  // Bar 1: "You've reached DevLife Inc..."
-  { freq: 523, time: 0,                duration: 0.4,  gain: 0.03, oscType: 'sine' },   // C4
-  { freq: 659, time: BEAT * 0.75,      duration: 0.35, gain: 0.03, oscType: 'sine' },   // E4 (syncopated)
-  { freq: 784, time: BEAT * 1.5,       duration: 0.4,  gain: 0.03, oscType: 'sine' },   // G4
-  { freq: 659, time: BEAT * 2.5,       duration: 0.35, gain: 0.025,oscType: 'sine' },   // E4
+  // Bar 1: A minor arpeggio — staccato, driving. "Good morning, team."
+  { freq: 440, time: 0,                duration: 0.15, gain: 0.03, oscType: 'sine' },   // A4
+  { freq: 523, time: BEAT * 0.5,       duration: 0.15, gain: 0.03, oscType: 'sine' },   // C5
+  { freq: 659, time: BEAT * 1,         duration: 0.15, gain: 0.03, oscType: 'sine' },   // E5
+  { freq: 523, time: BEAT * 1.5,       duration: 0.15, gain: 0.03, oscType: 'sine' },   // C5
+  { freq: 440, time: BEAT * 2,         duration: 0.15, gain: 0.03, oscType: 'sine' },   // A4
+  { freq: 523, time: BEAT * 2.5,       duration: 0.15, gain: 0.03, oscType: 'sine' },   // C5
+  { freq: 659, time: BEAT * 3,         duration: 0.15, gain: 0.03, oscType: 'sine' },   // E5
+  { freq: 523, time: BEAT * 3.5,       duration: 0.15, gain: 0.03, oscType: 'sine' },   // C5
 
-  // Bar 2: "...your career is important to us."
-  { freq: 698, time: BEAT * 4,         duration: 0.4,  gain: 0.03, oscType: 'sine' },   // F4
-  { freq: 880, time: BEAT * 4.75,      duration: 0.35, gain: 0.03, oscType: 'sine' },   // A4 (syncopated)
-  { freq: 1047,time: BEAT * 5.5,       duration: 0.4,  gain: 0.03, oscType: 'sine' },   // C5
-  { freq: 880, time: BEAT * 6.5,       duration: 0.35, gain: 0.025,oscType: 'sine' },   // A4
+  // Bar 2: descending — "Let's go around the room."
+  { freq: 587, time: BEAT * 4,         duration: 0.15, gain: 0.03, oscType: 'sine' },   // D5
+  { freq: 523, time: BEAT * 4.5,       duration: 0.15, gain: 0.03, oscType: 'sine' },   // C5
+  { freq: 494, time: BEAT * 5,         duration: 0.15, gain: 0.03, oscType: 'sine' },   // B4
+  { freq: 440, time: BEAT * 5.5,       duration: 0.15, gain: 0.03, oscType: 'sine' },   // A4
+  { freq: 494, time: BEAT * 6,         duration: 0.15, gain: 0.03, oscType: 'sine' },   // B4
+  { freq: 523, time: BEAT * 6.5,       duration: 0.15, gain: 0.03, oscType: 'sine' },   // C5
+  { freq: 587, time: BEAT * 7,         duration: 0.15, gain: 0.03, oscType: 'sine' },   // D5
+  { freq: 523, time: BEAT * 7.5,       duration: 0.15, gain: 0.03, oscType: 'sine' },   // C5
 
-  // Bar 3: "Please hold while we assign your ticket."
-  { freq: 784, time: BEAT * 8,         duration: 0.4,  gain: 0.03, oscType: 'sine' },   // G4
-  { freq: 659, time: BEAT * 8.75,      duration: 0.35, gain: 0.03, oscType: 'sine' },   // E4 (syncopated)
-  { freq: 587, time: BEAT * 9.5,       duration: 0.4,  gain: 0.03, oscType: 'sine' },   // D4
-  { freq: 523, time: BEAT * 10.5,      duration: 0.35, gain: 0.025,oscType: 'sine' },   // C4
+  // Bar 3: iv chord (F) — tension. "Any blockers?"
+  { freq: 349, time: BEAT * 8,         duration: 0.15, gain: 0.03, oscType: 'sine' },   // F4
+  { freq: 440, time: BEAT * 8.5,       duration: 0.15, gain: 0.03, oscType: 'sine' },   // A4
+  { freq: 523, time: BEAT * 9,         duration: 0.15, gain: 0.03, oscType: 'sine' },   // C5
+  { freq: 440, time: BEAT * 9.5,       duration: 0.15, gain: 0.03, oscType: 'sine' },   // A4
+  { freq: 349, time: BEAT * 10,        duration: 0.15, gain: 0.03, oscType: 'sine' },   // F4
+  { freq: 440, time: BEAT * 10.5,      duration: 0.15, gain: 0.03, oscType: 'sine' },   // A4
+  { freq: 523, time: BEAT * 11,        duration: 0.15, gain: 0.03, oscType: 'sine' },   // C5
+  { freq: 440, time: BEAT * 11.5,      duration: 0.15, gain: 0.03, oscType: 'sine' },   // A4
 
-  // Bar 4: "Estimated wait time: forever." (hangs on F — unresolved)
-  { freq: 587, time: BEAT * 12,        duration: 0.4,  gain: 0.03, oscType: 'sine' },   // D4
-  { freq: 659, time: BEAT * 12.75,     duration: 0.35, gain: 0.03, oscType: 'sine' },   // E4 (syncopated)
-  { freq: 698, time: BEAT * 13.5,      duration: 0.8,  gain: 0.03, oscType: 'sine' },   // F4 (hangs, unresolved)
+  // Bar 4: V chord (E) — unresolved. "Great, let's get back to it." (hangs on E)
+  { freq: 330, time: BEAT * 12,        duration: 0.15, gain: 0.03, oscType: 'sine' },   // E4
+  { freq: 440, time: BEAT * 12.5,      duration: 0.15, gain: 0.03, oscType: 'sine' },   // A4
+  { freq: 587, time: BEAT * 13,        duration: 0.15, gain: 0.03, oscType: 'sine' },   // D5
+  { freq: 440, time: BEAT * 13.5,      duration: 0.15, gain: 0.03, oscType: 'sine' },   // A4
+  { freq: 330, time: BEAT * 14,        duration: 0.3,  gain: 0.03, oscType: 'sine' },   // E4 (holds)
+  { freq: 440, time: BEAT * 14,        duration: 0.3,  gain: 0.025,oscType: 'sine' },   // A4 (holds)
+  { freq: 587, time: BEAT * 14,        duration: 0.3,  gain: 0.025,oscType: 'sine' },   // D5 (holds)
+  { freq: 659, time: BEAT * 15,        duration: 0.5,  gain: 0.03, oscType: 'sine' },   // E5 (hangs, unresolved)
 ];
 
-// "Ding" accents — like a Jira notification. Short, bright, high.
-const DINGS: BgmNote[] = [
-  { freq: 1568, time: BEAT * 3.5,      duration: 0.12, gain: 0.015,oscType: 'sine' },   // G5 ding
-  { freq: 1568, time: BEAT * 7.5,      duration: 0.12, gain: 0.015,oscType: 'sine' },   // G5 ding
-  { freq: 1319, time: BEAT * 11.5,     duration: 0.12, gain: 0.015,oscType: 'sine' },   // E5 ding
+// "Thud" accents — like a gavel hitting the table. Low, short, percussive.
+const THUDS: BgmNote[] = [
+  { freq: 220, time: BEAT * 3.8,       duration: 0.08, gain: 0.02, oscType: 'square' }, // A3 (end of bar 1)
+  { freq: 220, time: BEAT * 7.8,       duration: 0.08, gain: 0.02, oscType: 'square' }, // A3 (end of bar 2)
+  { freq: 175, time: BEAT * 11.8,      duration: 0.08, gain: 0.02, oscType: 'square' }, // F3 (end of bar 3, different pitch)
+  { freq: 165, time: BEAT * 15.8,      duration: 0.08, gain: 0.02, oscType: 'square' }, // E3 (end of bar 4, unresolved)
 ];
 
-// Walking bass — gives it a "corporate elevator" feel.
+// Root-fifth bass — driving, mechanical. Not walking.
 const BASS: BgmNote[] = [
-  { freq: 131, time: 0,                duration: 2.0,  gain: 0.02, oscType: 'triangle' }, // C3
-  { freq: 175, time: BEAT * 2,         duration: 2.0,  gain: 0.018,oscType: 'triangle' }, // F2
-  { freq: 131, time: BEAT * 4,         duration: 2.0,  gain: 0.02, oscType: 'triangle' }, // C3
-  { freq: 196, time: BEAT * 6,         duration: 2.0,  gain: 0.018,oscType: 'triangle' }, // G2
-  { freq: 131, time: BEAT * 8,         duration: 2.0,  gain: 0.02, oscType: 'triangle' }, // C3
-  { freq: 175, time: BEAT * 10,        duration: 2.0,  gain: 0.018,oscType: 'triangle' }, // F2
-  { freq: 131, time: BEAT * 12,        duration: 2.0,  gain: 0.02, oscType: 'triangle' }, // C3
-  { freq: 175, time: BEAT * 14,        duration: 2.0,  gain: 0.018,oscType: 'triangle' }, // F2 (unresolved)
+  // Bar 1: A2 + E3 (i)
+  { freq: 110, time: 0,                duration: 1.0,  gain: 0.02, oscType: 'triangle' }, // A2
+  { freq: 165, time: BEAT * 2,         duration: 1.0,  gain: 0.018,oscType: 'triangle' }, // E3
+  // Bar 2: A2 + E3 (i)
+  { freq: 110, time: BEAT * 4,         duration: 1.0,  gain: 0.02, oscType: 'triangle' }, // A2
+  { freq: 165, time: BEAT * 6,         duration: 1.0,  gain: 0.018,oscType: 'triangle' }, // E3
+  // Bar 3: F2 + C3 (iv) — tension
+  { freq: 87,  time: BEAT * 8,         duration: 1.0,  gain: 0.02, oscType: 'triangle' }, // F2
+  { freq: 131, time: BEAT * 10,        duration: 1.0,  gain: 0.018,oscType: 'triangle' }, // C3
+  // Bar 4: E2 + B2 (V) — unresolved
+  { freq: 82,  time: BEAT * 12,        duration: 1.0,  gain: 0.02, oscType: 'triangle' }, // E2
+  { freq: 123, time: BEAT * 14,        duration: 1.0,  gain: 0.018,oscType: 'triangle' }, // B2 (unresolved)
 ];
 
 const LOOP_DURATION = BEAT * 16; // 9.6 seconds
@@ -86,7 +118,7 @@ function killOscillators(): void {
 }
 
 function scheduleLoop(ctx: AudioContext, startTime: number): void {
-  const notes = [...MELODY, ...DINGS, ...BASS];
+  const notes = [...MELODY, ...THUDS, ...BASS];
   for (const note of notes) {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
