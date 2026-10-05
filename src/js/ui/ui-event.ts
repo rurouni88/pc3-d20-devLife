@@ -394,24 +394,31 @@ export const UIEventCard = {
     if (result.gameOver) {
       UI.showToast('💀 Career Over', 'error');
       UI.playSound('gameover');
+      UI.playHaptic('gameover');
+      UI.playDefeatJingle();
       UI.flashScreen('rgba(255, 0, 0, 0.4)');
     } else if (result.victory) {
       UI.showToast('🏆 Retirement!', 'success');
       UI.playSound('victory');
+      UI.playHaptic('victory');
+      UI.playVictoryJingle();
       UI.flashScreen('rgba(255, 215, 0, 0.3)');
     } else if (result.leveledUp) {
       UI.showToast(`📈 Level Up! Now level ${state.level}`, 'success');
       UI.playSound('levelup');
+      UI.playHaptic('levelup');
     } else if (result.bossDefeated) {
       UI.showToast('🏆 Boss Defeated!', 'success');
       UI.playSound('boss');
+      UI.playHaptic('boss');
       UI.flashScreen('rgba(0, 255, 136, 0.3)');
     } else if (result.itemDropped) {
       UI.showToast(`🎁 Found: ${result.itemDropped.emoji} ${result.itemDropped.name}`, 'success');
       UI.playSound('success');
     } else {
-      // Regular choice sound
+      // Regular choice sound + haptic on pass/fail
       UI.playSound(result.success ? 'success' : 'failure');
+      UI.playHaptic(result.success ? 'success' : 'failure');
     }
 
     // Newly-unlocked achievements (only present on a run-ending choice).

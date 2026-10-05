@@ -12,6 +12,8 @@ const SETTINGS_KEY = 'devlife_settings';
 const DEFAULT_SETTINGS: Settings = {
   audioOn: true,
   volume: 0.5,
+  bgmOn: true,
+  hapticsOn: true,
   diceAnimationOn: true,
   saveScumOn: false,
   theme: 'dark',
@@ -20,6 +22,8 @@ const DEFAULT_SETTINGS: Settings = {
 export interface Settings {
   audioOn: boolean;
   volume: number;
+  bgmOn: boolean;
+  hapticsOn: boolean;
   diceAnimationOn: boolean;
   saveScumOn: boolean;
   theme: 'dark' | 'light';
@@ -55,6 +59,8 @@ function applySettings(settings: Settings): void {
     if (!UI.audioCtx) UI.initAudio();
     UI.volume = settings.volume;
   }
+  UI.bgmOn = settings.bgmOn;
+  UI.hapticsOn = settings.hapticsOn;
   UI.diceAnimationOn = settings.diceAnimationOn;
   UI.saveScumOn = settings.saveScumOn;
   applyTheme(settings.theme);
@@ -74,6 +80,8 @@ export const UISettings = {
     // Sync the UI object with persisted settings.
     UI.audioOn = this.settings.audioOn;
     UI.volume = this.settings.volume;
+    UI.bgmOn = this.settings.bgmOn;
+    UI.hapticsOn = this.settings.hapticsOn;
     UI.diceAnimationOn = this.settings.diceAnimationOn;
     UI.saveScumOn = this.settings.saveScumOn;
     applyTheme(this.settings.theme);
@@ -123,6 +131,26 @@ export const UISettings = {
         <span id="setting-volume-value" class="setting-value" style="font-family:var(--font-mono);">${Math.round(s.volume * 100)}%</span>
       </div>`;
 
+    // BGM toggle
+    html += `
+      <div class="setting-row">
+        <span class="setting-label">Music <span class="cons-info" data-help="bgm" aria-label="About Music">?</span></span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="setting-bgm-on" ${s.bgmOn ? 'checked' : ''} />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>`;
+
+    // Haptics toggle
+    html += `
+      <div class="setting-row">
+        <span class="setting-label">Haptics <span class="cons-info" data-help="haptics" aria-label="About Haptics">?</span></span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="setting-haptics-on" ${s.hapticsOn ? 'checked' : ''} />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>`;
+
     // Dice animation toggle
     html += `
       <div class="setting-row">
@@ -149,6 +177,8 @@ export const UISettings = {
     const audioOn = document.getElementById('setting-audio-on') as HTMLInputElement | null;
     const volume = document.getElementById('setting-volume') as HTMLInputElement | null;
     const volumeValue = document.getElementById('setting-volume-value');
+    const bgmOn = document.getElementById('setting-bgm-on') as HTMLInputElement | null;
+    const hapticsOn = document.getElementById('setting-haptics-on') as HTMLInputElement | null;
     const diceAnimOn = document.getElementById('setting-dice-animation-on') as HTMLInputElement | null;
     const saveScumOn = document.getElementById('setting-save-scum-on') as HTMLInputElement | null;
     const themeOn = document.getElementById('setting-theme') as HTMLInputElement | null;
@@ -177,6 +207,25 @@ export const UISettings = {
         applySettings(this.settings);
         // Preview sound at new volume if audio is on.
         if (this.settings.audioOn) UI.playSound('click');
+      });
+    }
+
+    if (bgmOn) {
+      bgmOn.addEventListener('change', () => {
+        this.settings.bgmOn = bgmOn.checked;
+        UI.bgmOn = bgmOn.checked;
+        if (bgmOn.checked) { UI.initBgm(); } else { UI.stopBgm(); }
+        saveSettings(this.settings);
+        UI.playSound('click');
+      });
+    }
+
+    if (hapticsOn) {
+      hapticsOn.addEventListener('change', () => {
+        this.settings.hapticsOn = hapticsOn.checked;
+        UI.hapticsOn = hapticsOn.checked;
+        saveSettings(this.settings);
+        UI.playSound('click');
       });
     }
 
@@ -219,6 +268,12 @@ export const UISettings = {
             break;
           case 'volume':
             UI.showTooltip({ name: 'Volume', desc: 'Controls how loud the beep-boop sounds are. Don\'t blast your neighbours.', icon: 'icon-volume' });
+            break;
+          case 'bgm':
+            UI.showTooltip({ name: 'Music', desc: 'Corporate elevator music. Because every open-plan office needs a soundtrack to your soul-crushing.', icon: 'icon-speaker' });
+            break;
+          case 'haptics':
+            UI.showTooltip({ name: 'Haptics', desc: 'Vibrates your phone on big moments. Not supported on iOS — Apple thinks your palms are fine.', icon: 'icon-gear' });
             break;
           case 'diceAnimation':
             UI.showTooltip({ name: 'Dice Animation', desc: 'Skips the d20 dice roll animation. Because waiting is for people who care about luck.', icon: 'icon-dice' });
