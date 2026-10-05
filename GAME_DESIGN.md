@@ -356,7 +356,7 @@ Defeat all **4 phase bosses** (24 events, 20 with Fast Ship) to reach **Retireme
 ## 6. Technical Architecture (Web Prototype)
 
 ### Tech Stack
-- **HTML/CSS/TypeScript** (no framework) — a `tsc` build step compiles the TS source to ES modules in `dist/` (no bundler; a single `<script type="module">` entry, served over HTTP)
+- **HTML/CSS/TypeScript** (no framework) — `tsc` compiles TS to ES modules in `dist/` for production; **Vite** provides the dev server with HMR
 - **TypeScript** under full `strict` checking; `tsconfig.json` type-checks (`noEmit`), `tsconfig.build.json` emits to `dist/`
 - **Node VM test suite** for core game logic (no framework, no browser) — runs against the built `dist/js/`
 - **Web Audio API** for synthesized sound effects, BGM, and jingles (no audio files)

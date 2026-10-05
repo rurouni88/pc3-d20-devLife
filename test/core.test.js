@@ -52,14 +52,16 @@ assert.strictEqual(
   `CONFIG.version (${CONFIG.version}) must match package.json (${PACKAGE_VERSION})`
 );
 
-const indexHtml = fs.readFileSync(path.join(ROOT, 'src', 'index.html'), 'utf8');
-const moduleEntries = [...indexHtml.matchAll(/<script type="module" src="([^"]+)">/g)].map(m => m[1]);
-assert.strictEqual(moduleEntries.length, 1, 'index.html must load exactly one module entry');
+// Check the BUILT index.html (dist/) — the assemble script rewrites Vite dev
+// refs (/js/app.ts) to production refs (js/app.js?v=VERSION).
+const distHtml = fs.readFileSync(path.join(ROOT, 'dist', 'index.html'), 'utf8');
+const moduleEntries = [...distHtml.matchAll(/<script type="module" src="([^"]+)">/g)].map(m => m[1]);
+assert.strictEqual(moduleEntries.length, 1, 'dist/index.html must load exactly one module entry');
 const entryVersion = /v=([\d.]+)$/.exec(moduleEntries[0])?.[1];
 assert.ok(entryVersion, `module entry must be versioned (got: ${moduleEntries[0]})`);
 assert.strictEqual(
   entryVersion, PACKAGE_VERSION,
-  `index.html module entry ?v=${entryVersion} must match package.json (${PACKAGE_VERSION})`
+  `dist/index.html module entry ?v=${entryVersion} must match package.json (${PACKAGE_VERSION})`
 );
 
 const headers = fs.readFileSync(path.join(ROOT, 'src', '_headers'), 'utf8');

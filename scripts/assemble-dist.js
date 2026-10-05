@@ -39,10 +39,15 @@ if (!fs.existsSync(path.join(dist, 'js'))) {
   fail('dist/js/ not found — run "npm run build" first.');
 }
 
-// 1. src/index.html -> dist/index.html (copied as-is; it already references
-//    js/ and css/ relative to the site root).
-fs.copyFileSync(path.join(srcDir, 'index.html'), path.join(dist, 'index.html'));
-console.log('[assemble] src/index.html -> dist/index.html');
+// 1. src/index.html -> dist/index.html (rewrite Vite dev refs to production refs).
+// Vite dev uses /js/app.ts and /css/style.css (absolute, no version).
+// Production needs js/app.js?v=VERSION and css/style.css?v=VERSION (relative, cache-busted).
+const version = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8')).version;
+let html = fs.readFileSync(path.join(srcDir, 'index.html'), 'utf8');
+html = html.replace('/js/app.ts', `js/app.js?v=${version}`);
+html = html.replace('/css/style.css', `css/style.css?v=${version}`);
+fs.writeFileSync(path.join(dist, 'index.html'), html);
+console.log(`[assemble] src/index.html -> dist/index.html (v${version})`);
 
 // 1b. src/_headers -> dist/_headers (GitHub Pages cache policy: revalidate
 //     js/ and css/ by ETag — the module graph is fetched by bare URL, so

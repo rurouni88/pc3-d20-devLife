@@ -3,15 +3,16 @@
   "version": "0.50",
   "type": "module",
   "private": true,
-  "description": "d20().devLife \u2014 a software engineering roguelike",
+  "description": "d20().devLife — a software engineering roguelike",
   "scripts": {
     "typecheck": "tsc",
     "test": "npm run build && npm run assemble && node test/core.test.js && node test/smoke.test.js",
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
     "assemble": "node scripts/assemble-dist.js",
-    "dev": "npm run build && npm run assemble && node scripts/dev-reminder.js && tsc -p tsconfig.build.json --watch"
+    "dev": "vite"
   },
   "devDependencies": {
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
+    "vite": "^8.3.2"
   }
 }
